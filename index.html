@@ -346,15 +346,17 @@
 
     .photo-track {
       display: flex;
-      transition: transform .6s ease;
     }
 
     .photo-track img {
-      width: 100%;
-      flex-shrink: 0;
       height: 320px;
       object-fit: cover;
-      display: block;
+      flex-shrink: 0;
+    }
+
+    @keyframes photo-scroll {
+      0%   { transform: translateX(0); }
+      100% { transform: translateX(var(--scroll-end)); }
     }
 
     /* ── Responsive ── */
@@ -385,14 +387,14 @@
 
     <div class="photo-carousel">
       <div class="photo-track" id="p-track">
-        <img src="photo1.jpg" alt="" />
-        <img src="photo2.jpg" alt="" />
-        <img src="photo3.jpg" alt="" />
-        <img src="photo4.jpg" alt="" />
-        <img src="photo5.jpg" alt="" />
-        <img src="photo6.jpg" alt="" />
-        <img src="photo7.jpg" alt="" />
-        <img src="photo8.jpg" alt="" />
+        <img src="photo1.jpg" alt="" /><img src="photo2.jpg" alt="" />
+        <img src="photo3.jpg" alt="" /><img src="photo4.jpg" alt="" />
+        <img src="photo5.jpg" alt="" /><img src="photo6.jpg" alt="" />
+        <img src="photo7.jpg" alt="" /><img src="photo8.jpg" alt="" />
+        <img src="photo1.jpg" alt="" /><img src="photo2.jpg" alt="" />
+        <img src="photo3.jpg" alt="" /><img src="photo4.jpg" alt="" />
+        <img src="photo5.jpg" alt="" /><img src="photo6.jpg" alt="" />
+        <img src="photo7.jpg" alt="" /><img src="photo8.jpg" alt="" />
       </div>
     </div>
 
@@ -671,40 +673,20 @@
   /* ─────────────────────────────────────────
      Photos
   ───────────────────────────────────────── */
-  const PHOTOS = ['photo1.jpg','photo2.jpg','photo3.jpg','photo4.jpg','photo5.jpg','photo6.jpg','photo7.jpg','photo8.jpg'];
-  let pIdx = 0;
-
-  let photoTimer = null;
-
-  function showPhoto(n) {
-    document.getElementById('p-track').style.transform = `translateX(-${n * 100}%)`;
-  }
-
-  function nextPhoto() {
-    pIdx = (pIdx + 1) % PHOTOS.length;
-    showPhoto(pIdx);
-  }
-
-  function prevPhoto() {
-    pIdx = (pIdx - 1 + PHOTOS.length) % PHOTOS.length;
-    showPhoto(pIdx);
-    restartPhotoTimer();
-  }
-
-  function restartPhotoTimer() {
-    clearInterval(photoTimer);
-    photoTimer = setInterval(nextPhoto, 4000);
-  }
-
   function startPhotoCarousel() {
-    pIdx = 0;
-    showPhoto(0);
-    restartPhotoTimer();
+    const carousel = document.querySelector('.photo-carousel');
+    const track = document.getElementById('p-track');
+    const w = carousel.offsetWidth;
+    track.querySelectorAll('img').forEach(img => { img.style.width = w + 'px'; });
+    track.style.setProperty('--scroll-end', `-${w * 8}px`);
+    track.style.animation = 'none';
+    track.offsetHeight;
+    track.style.animation = 'photo-scroll 32s linear infinite';
   }
 
   function stopPhotoCarousel() {
-    clearInterval(photoTimer);
-    photoTimer = null;
+    const track = document.getElementById('p-track');
+    if (track) track.style.animation = 'none';
   }
 
   /* ─────────────────────────────────────────
