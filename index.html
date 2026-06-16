@@ -8,7 +8,7 @@
     href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&family=Raleway:wght@300;400;600&display=swap"
     rel="stylesheet"
   />
-  <script src="https://www.youtube.com/iframe_api"></script>
+  <script src="https://w.soundcloud.com/player/api.js"></script>
   <style>
     *, *::before, *::after {
       margin: 0;
@@ -343,7 +343,9 @@
 <body>
 
 <canvas id="starfield"></canvas>
-<div id="yt-player" style="position:fixed;width:1px;height:1px;overflow:hidden;pointer-events:none;"></div>
+<iframe id="sc-player"
+  src="https://w.soundcloud.com/player/?url=https%3A//soundcloud.com/kehlanimusic/kehlani-down-for-you-ft-bj-the-chicago-kid&auto_play=false&hide_related=true&show_comments=false&show_user=false&show_reposts=false&visual=false"
+  style="position:fixed;width:1px;height:1px;border:none;pointer-events:none;"></iframe>
 
 <div class="scene">
 
@@ -634,30 +636,23 @@
   /* ─────────────────────────────────────────
      Screen transitions
   ───────────────────────────────────────── */
-  let ytPlayer = null;
+  let scWidget = null;
   let musicStarted = false;
   let pendingPlay = false;
 
-  function onYouTubeIframeAPIReady() {
-    ytPlayer = new YT.Player('yt-player', {
-      height: '1',
-      width: '1',
-      videoId: 'FY0DCUSMfZc',
-      playerVars: { autoplay: 0, loop: 1, playlist: 'FY0DCUSMfZc', playsinline: 1 },
-      events: {
-        onReady: e => {
-          e.target.setVolume(25);
-          if (pendingPlay) e.target.playVideo();
-        }
-      }
+  window.addEventListener('load', () => {
+    scWidget = SC.Widget(document.getElementById('sc-player'));
+    scWidget.bind(SC.Widget.Events.READY, () => {
+      scWidget.setVolume(25);
+      if (pendingPlay) scWidget.play();
     });
-  }
+  });
 
   function startMusic() {
     if (musicStarted) return;
     musicStarted = true;
-    if (ytPlayer && ytPlayer.playVideo) {
-      ytPlayer.playVideo();
+    if (scWidget) {
+      scWidget.play();
     } else {
       pendingPlay = true;
     }
