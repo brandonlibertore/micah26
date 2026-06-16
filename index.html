@@ -696,6 +696,8 @@
   const PHOTOS = ['photo1.jpg','photo2.jpg','photo3.jpg','photo4.jpg','photo5.jpg','photo6.jpg','photo7.jpg'];
   let pIdx = 0;
 
+  let photoTimer = null;
+
   function showPhoto(n) {
     const img = document.getElementById('p-img');
     img.style.opacity = '0';
@@ -704,7 +706,6 @@
       img.style.opacity = '1';
     }, 200);
     document.getElementById('p-num').textContent = n + 1;
-    spawnNotes(3);
   }
 
   function nextPhoto() {
@@ -715,6 +716,23 @@
   function prevPhoto() {
     pIdx = (pIdx - 1 + PHOTOS.length) % PHOTOS.length;
     showPhoto(pIdx);
+    restartPhotoTimer();
+  }
+
+  function restartPhotoTimer() {
+    clearInterval(photoTimer);
+    photoTimer = setInterval(nextPhoto, 4000);
+  }
+
+  function startPhotoCarousel() {
+    pIdx = 0;
+    showPhoto(0);
+    restartPhotoTimer();
+  }
+
+  function stopPhotoCarousel() {
+    clearInterval(photoTimer);
+    photoTimer = null;
   }
 
   /* ─────────────────────────────────────────
@@ -760,7 +778,7 @@
     if (id === 's-cards')  spawnNotes(10);
     if (id === 's-wish')   resetWish();
     if (id === 's-26')     { rIdx = 0; showReason(0); }
-    if (id === 's-photos') { pIdx = 0; showPhoto(0); }
+    if (id === 's-photos') { startPhotoCarousel(); } else { stopPhotoCarousel(); }
   }
 
   /* ─────────────────────────────────────────
