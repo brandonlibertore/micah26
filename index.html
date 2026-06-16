@@ -343,7 +343,7 @@
 <body>
 
 <canvas id="starfield"></canvas>
-<div id="yt-player" style="position:fixed;width:0;height:0;overflow:hidden;pointer-events:none;"></div>
+<div id="yt-player" style="position:fixed;width:1px;height:1px;overflow:hidden;pointer-events:none;"></div>
 
 <div class="scene">
 
@@ -643,7 +643,7 @@
       height: '1',
       width: '1',
       videoId: 'FY0DCUSMfZc',
-      playerVars: { autoplay: 0, loop: 1, playlist: 'FY0DCUSMfZc' },
+      playerVars: { autoplay: 0, loop: 1, playlist: 'FY0DCUSMfZc', playsinline: 1 },
       events: {
         onReady: e => {
           e.target.setVolume(25);
