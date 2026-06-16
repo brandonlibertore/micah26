@@ -634,6 +634,7 @@
   /* ─────────────────────────────────────────
      Screen transitions
   ───────────────────────────────────────── */
+<<<<<<< HEAD
   let ytPlayer = null;
   let musicStarted = false;
 
@@ -645,16 +646,38 @@
       playerVars: { autoplay: 0, loop: 1, playlist: 'FY0DCUSMfZc' },
       events: {
         onReady: e => { e.target.setVolume(25); }
+=======
+  let musicStarted = false;
+  function startMusic() {
+    if (musicStarted) return;
+    musicStarted = true;
+    const tag = document.createElement('script');
+    tag.src = 'https://www.youtube.com/iframe_api';
+    document.head.appendChild(tag);
+  }
+
+  function onYouTubeIframeAPIReady() {
+    new YT.Player('yt-player', {
+      height: '0',
+      width: '0',
+      videoId: 'FY0DCUSMfZc',
+      playerVars: { autoplay: 1, loop: 1, playlist: 'FY0DCUSMfZc' },
+      events: {
+        onReady: e => { e.target.setVolume(25); e.target.playVideo(); }
+>>>>>>> 106cb82dc15314da5cb2ccc3153a5b9cb0d83604
       }
     });
   }
 
+<<<<<<< HEAD
   function startMusic() {
     if (musicStarted || !ytPlayer) return;
     musicStarted = true;
     ytPlayer.playVideo();
   }
 
+=======
+>>>>>>> 106cb82dc15314da5cb2ccc3153a5b9cb0d83604
   function goTo(id) {
     startMusic();
     document.querySelectorAll('.screen').forEach(s => s.classList.add('hidden'));
