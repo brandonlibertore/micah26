@@ -362,7 +362,7 @@
 <body>
 
 <canvas id="starfield"></canvas>
-<div id="yt-player" style="position:fixed;width:1px;height:1px;overflow:hidden;pointer-events:none;"></div>
+<div id="yt-player" style="position:fixed;left:-300px;bottom:0;width:200px;height:100px;pointer-events:none;"></div>
 
 <div class="scene">
 
@@ -707,8 +707,8 @@
 
   function onYouTubeIframeAPIReady() {
     ytPlayer = new YT.Player('yt-player', {
-      height: '1',
-      width: '1',
+      height: '100',
+      width: '200',
       videoId: 'xkiCIhacr_A',
       playerVars: { autoplay: 0, loop: 1, playlist: 'xkiCIhacr_A', playsinline: 1 },
       events: {
