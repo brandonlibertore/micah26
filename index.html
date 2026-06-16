@@ -359,6 +359,42 @@
       100% { transform: translateX(var(--scroll-end)); }
     }
 
+    /* ── Gift gallery ── */
+    .gift-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1rem;
+      width: 100%;
+      margin-bottom: 1.6rem;
+    }
+
+    .gift-item {
+      background: rgba(255,255,255,.05);
+      border: 1px solid rgba(204,26,26,.18);
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: 0 0 24px rgba(139,0,0,.12);
+    }
+
+    .gift-item img {
+      width: 100%;
+      height: 280px;
+      object-fit: cover;
+      display: block;
+    }
+
+    .gift-item .gift-caption {
+      padding: .6rem .8rem .9rem;
+      font-size: .9rem;
+      color: rgba(255,255,255,.75);
+      font-weight: 300;
+    }
+
+    @media (max-width: 520px) {
+      .gift-grid { grid-template-columns: 1fr; gap: 1rem; }
+      .gift-item img { height: 220px; }
+    }
+
     /* ── Responsive ── */
     @media (max-width: 520px) {
       .card { padding: 1.6rem 1.2rem; }
@@ -416,6 +452,7 @@
     </div>
     <div style="margin-top:.5rem;">
       <button class="btn btn-ghost" onclick="goTo('s-26')">💜 26 Reasons I Love You</button>
+      <button class="btn btn-ghost" onclick="goTo('s-gifts')">🎁 Your Gifts</button>
     </div>
 
     <p class="kb-hint">
@@ -446,6 +483,13 @@
     <button class="btn" id="r-btn" onclick="nextReason()">Next &nbsp;→</button>
     <br>
     <button class="btn btn-ghost" onclick="goTo('s-cards')" style="margin-top:.6rem">← Back</button>
+  </div>
+
+  <!-- ── Screen 5: Gifts ── -->
+  <div class="screen hidden" id="s-gifts">
+    <div class="hero-sub" style="margin-bottom:1.2rem;">A few things I picked out for you 🎁</div>
+    <div class="gift-grid" id="gift-grid"></div>
+    <button class="btn btn-ghost" onclick="goTo('s-cards')">← Back</button>
   </div>
 
 </div><!-- /scene -->
@@ -671,6 +715,29 @@
   }
 
   /* ─────────────────────────────────────────
+     Gifts
+  ───────────────────────────────────────── */
+  const GIFTS = [
+    { img: 'gift1.webp', caption: 'Kehlani (SIGNED Gold Marble CD)' },
+    { img: 'gift2.webp', caption: 'Kehlani Flower Logo Tank Top' },
+    { img: 'gift3.webp', caption: 'Kehlani Script Halter Top' },
+  ];
+
+  function renderGifts() {
+    const grid = document.getElementById('gift-grid');
+    if (!GIFTS.length) {
+      grid.innerHTML = `<p style="grid-column:1/-1; color:rgba(255,255,255,.5); font-weight:300;">Gifts coming soon 💜</p>`;
+      return;
+    }
+    grid.innerHTML = GIFTS.map(g => `
+      <div class="gift-item">
+        <img src="${g.img}" alt="${g.caption || ''}" />
+        ${g.caption ? `<div class="gift-caption">${g.caption}</div>` : ''}
+      </div>
+    `).join('');
+  }
+
+  /* ─────────────────────────────────────────
      Photos
   ───────────────────────────────────────── */
   function startPhotoCarousel() {
@@ -732,6 +799,7 @@
     if (id === 's-cards') { spawnNotes(10); startPhotoCarousel(); } else { stopPhotoCarousel(); }
     if (id === 's-wish')  resetWish();
     if (id === 's-26')    { rIdx = 0; showReason(0); }
+    if (id === 's-gifts') renderGifts();
   }
 
   /* ─────────────────────────────────────────
